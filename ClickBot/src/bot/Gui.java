@@ -226,7 +226,9 @@ public class Gui extends JFrame implements ActionListener {
         this.log.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#4682B4")), "Log"));
         this.log.setLineWrap(true);
         this.log.setEditable(false);
-        entryList.setLog(this.log);
+        LoggingThread logger = new LoggingThread(log);
+        entryList.setLog(logger);
+        logger.start();
         JScrollPane logScroll = new JScrollPane(this.log);
         logScroll.setVerticalScrollBarPolicy(22);
         this.styleComponent(terminate);

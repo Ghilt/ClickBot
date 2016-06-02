@@ -13,7 +13,7 @@ public class EntryInformation {
     private Robot bot;
     private ArrayList<BotEntry> entryList = new ArrayList();
     private Gui gui;
-    private JTextArea log;
+    private LoggingThread log;
     private boolean pause;
 
     public EntryInformation(Gui gui) {
@@ -58,8 +58,8 @@ public class EntryInformation {
             ++i;
         }
         
-        log.append("\n[" + getFormattedTime() + "] - " + clicks + " Mouse Click(s) at coordinates X: " + x + " Y: " + y);
-        log.setCaretPosition(log.getDocument().getLength());
+        log.log("\n[" + getFormattedTime() + "] - " + clicks + " Mouse Click(s) at coordinates X: " + x + " Y: " + y);
+
     }
 
     public synchronized void pushKey(CharSequence characters) {
@@ -71,8 +71,7 @@ public class EntryInformation {
             ++i;
         }
 
-        log.append("\n[" + getFormattedTime() + "] - Keys pushed: " + characters);
-        log.setCaretPosition(log.getDocument().getLength());
+        log.log("\n[" + getFormattedTime() + "] - Keys pushed: " + characters);
     }
 
     public void type(char character) {
@@ -486,7 +485,7 @@ public class EntryInformation {
         }
     }
 
-    public void setLog(JTextArea log) {
+    public void setLog(LoggingThread log) {
         this.log = log;
     }
 
@@ -497,11 +496,10 @@ public class EntryInformation {
     public void setPauseAll(boolean b) {
         pause = b;
         if (b) {
-            log.append("\n[" + getFormattedTime() + "] - Paused");
+            log.log("\n[" + getFormattedTime() + "] - Paused");
         } else {
-            log.append("\n[" + getFormattedTime() + "] - Unpaused");
+            log.log("\n[" + getFormattedTime() + "] - Unpaused");
         }
-        log.setCaretPosition(log.getDocument().getLength());
         for (BotEntry entry : entryList) {
             entry.setPause(b);
         }
